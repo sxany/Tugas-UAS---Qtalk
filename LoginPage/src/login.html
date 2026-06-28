@@ -4,44 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-        <style>
-
-        label {
-            display: inline-block;
-            width: 70px;
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #120029; /* Background halaman ungu sangat muda */
         }
 
-        body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        margin: 0;
-    }
+        .login-card {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(147, 112, 219, 0.15); /* Bayangan soft ungu */
+            text-align: left;
+            width: 320px;
+        }
 
-    form {
-        text-align: left;
-    }
+        h1 {
+            color: #6a4c93; /* Ungu medium untuk judul */
+            margin-top: 0;
+            margin-bottom: 24px;
+            font-size: 24px;
+            text-align: center;
+        }
 
-    button {
-        margin-left: 74px;
+        .input-group {
+            margin-bottom: 16px;
+        }
 
-    }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555555;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dcd0ec; /* Border input ungu muda */
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #9370db; /* Warna ungu cerah saat input diklik */
+            box-shadow: 0 0 5px rgba(147, 112, 219, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #8a63bd; /* Warna tombol ungu tidak terlalu gelap */
+            color: rgb(255, 255, 255);
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #724da3; /* Ungu sedikit lebih tegas saat di-hover */
+        }
+
+        p {
+            text-align: center;
+            font-size: 13px;
+            color: #666666;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
+        a {
+            color: #8a63bd;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <div>
-    <h1>Login Disini</h1>
-    <form action="../login.php" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
+    <div class="login-card">
+        <h1>Login Disini</h1>
+        <form action="../login.php" method="POST">
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
 
-        <label for="">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
 
-        <button type="submit">Login</button>
-        <p>Belum punya akun? <a href="index.html">Daftar di sini</a></p>
-    </form>
+            <button type="submit">Login</button>
+            <p>Belum punya akun? <a href="index.html">Daftar di sini</a></p>
+        </form>
     </div>
 </body>
 </html>
