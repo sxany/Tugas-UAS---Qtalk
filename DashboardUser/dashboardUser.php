@@ -12,7 +12,11 @@ require_once __DIR__ . '/../LoginPage/koneksi.php';
 
 // Tentukan tab mana yang sedang aktif (default: daftar)
 $tab_aktif = isset($_GET['tab']) ? $_GET['tab'] : 'daftar';
-$id_user = $_SESSION['user']['id'];
+
+// =======================================================
+// BYPASS ID USER LANGSUNG KE ANGKA 1 (Disamakan dengan proses_bid.php)
+// =======================================================
+$id_user = 1; 
 
 try {
     if ($tab_aktif === 'daftar') {
@@ -34,26 +38,18 @@ try {
         $stmt = $pdo->query($query);
         $daftar_lelang = $stmt->fetchAll();
     } else if ($tab_aktif === 'penawaran') {
-        // QUERY TAB PENAWARAN SAYA
+        // --- QUERY BARU UNTUK TAB PENAWARAN SAYA (LEBIH RINGAN & PASTI SINKRON) ---
         $query = "
             SELECT 
                 bl.id_barang,
                 bl.nama_barang,
                 bl.status_lelang,
-                b_user.harga_maks_user AS bid_kamu,
-                IFNULL(b_total.harga_tertinggi, bl.harga_barang) AS harga_berjalan
-            FROM barang_lelang bl
-            INNER JOIN (
-                SELECT barang_id, MAX(harga_tawar) AS harga_maks_user 
-                FROM bid 
-                WHERE user_id = :id_user
-                GROUP BY barang_id
-            ) b_user ON bl.id_barang = b_user.barang_id
-            LEFT JOIN (
-                SELECT barang_id, MAX(harga_tawar) AS harga_tertinggi 
-                FROM bid 
-                GROUP BY barang_id
-            ) b_total ON bl.id_barang = b_total.barang_id
+                MAX(b.harga_tawar) AS bid_kamu,
+                (SELECT IFNULL(MAX(harga_tawar), bl.harga_barang) FROM bid WHERE barang_id = bl.id_barang) AS harga_berjalan
+            FROM bid b
+            INNER JOIN barang_lelang bl ON b.barang_id = bl.id_barang
+            WHERE b.user_id = :id_user
+            GROUP BY bl.id_barang
             ORDER BY bl.id_barang DESC
         ";
         $stmt = $pdo->prepare($query);
@@ -77,7 +73,7 @@ try {
 
     <!-- NAVBAR ATAS (MIDNIGHT INDIGO) -->
     <nav class="bg-slate-900 border-b border-indigo-950/50 text-white p-4 shadow-xl flex justify-between items-center z-10">
-        <h1 class="text-xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Alfa Auction</h1>
+        <h1 class="text-xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">✨ Alfa Auction</h1>
         <div class="flex items-center gap-4">
             <span class="font-medium text-slate-400 text-sm">Welcome, <strong class="text-indigo-300"><?php echo htmlspecialchars($_SESSION['user']['username']); ?></strong></span>
             <a href="../LoginPage/logout.php" class="bg-rose-950/40 hover:bg-rose-900/60 text-rose-400 border border-rose-900/50 text-xs px-3 py-1.5 rounded-xl transition duration-200">Logout</a>
@@ -136,7 +132,6 @@ try {
                         <?php foreach ($daftar_lelang as $barang): ?>
                             <div class="bg-slate-900/80 rounded-2xl shadow-xl hover:shadow-indigo-950/20 overflow-hidden border border-indigo-950/60 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1">
                                 
-                                <!-- Foto placeholder bertema neon dark -->
                                 <div class="bg-gradient-to-br from-slate-800 to-indigo-950/50 h-44 w-full flex items-center justify-center text-indigo-300/70 font-bold border-b border-indigo-950/40">
                                     📦 <?php echo htmlspecialchars($barang['nama_barang']); ?>
                                 </div>
@@ -163,14 +158,13 @@ try {
                                         </div>
                                     </div>
 
-                                    <!-- FORM INPUT BID -->
                                     <form action="proses_bid.php" method="POST" class="mt-auto">
                                         <input type="hidden" name="id_barang" value="<?php echo $barang['id_barang']; ?>">
                                         <div class="flex gap-2">
                                             <input type="number" 
                                                    name="harga_tawar" 
                                                    placeholder="Input nominal" 
-                                                   min="<?php echo $barang['harga_berjalan'] + 1; ?>" 
+                                                   min="<?php echo $barang['harga_berjalan'] + 1000; ?>" 
                                                    step="1000" 
                                                    class="w-full px-3 py-2 bg-slate-950 border border-indigo-950/80 rounded-xl text-xs text-indigo-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 placeholder-slate-600" 
                                                    required>
