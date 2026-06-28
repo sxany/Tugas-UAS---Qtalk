@@ -13,8 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama_barang = trim($_POST['nama_barang']);
     $deskripsi_barang = trim($_POST['deskripsi_barang']);
     $harga_barang = floatval($_POST['harga_barang']);
+    $waktu = trim($_POST['waktu']);
 
-    if (empty($nama_barang) || empty($deskripsi_barang) || $harga_barang <= 0) {
+    if (empty($nama_barang) || empty($deskripsi_barang) || $harga_barang <= 0 || empty($waktu) ) {
         header('Location: dashboardAdmin.php?error=invalid_input');
         exit;
     }
@@ -51,15 +52,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         // Simpan semua data teks sekaligus string nama gambar baru ke database
         $query = "
-            INSERT INTO barang_lelang (nama_barang, deskripsi_barang, harga_barang, gambar, status_lelang) 
-            VALUES (:nama, :deskripsi, :harga, :gambar, 'aktif')
+            INSERT INTO barang_lelang (nama_barang, deskripsi_barang, harga_barang, gambar, status_lelang, waktu) 
+            VALUES (:nama, :deskripsi, :harga, :gambar, 'aktif', :waktu)
         ";
         $stmt = $pdo->prepare($query);
         $stmt->execute([
             ':nama' => $nama_barang,
             ':deskripsi' => $deskripsi_barang,
             ':harga' => $harga_barang,
-            ':gambar' => $nama_gambar_db
+            ':gambar' => $nama_gambar_db,
+            ':waktu' => $waktu
         ]);
 
         header('Location: dashboardAdmin.php?status=insert_success');

@@ -40,6 +40,34 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alfa Auction - Admin Amethyst Panel</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+   <script>
+    function setDurasi(jam, el) {
+        const sekarang = new Date();
+        sekarang.setHours(sekarang.getHours() + jam);
+
+        // Gunakan waktu lokal bukan UTC
+        const tahun  = sekarang.getFullYear();
+        const bulan  = String(sekarang.getMonth() + 1).padStart(2, '0');
+        const hari   = String(sekarang.getDate()).padStart(2, '0');
+        const hour   = String(sekarang.getHours()).padStart(2, '0');
+        const menit  = String(sekarang.getMinutes()).padStart(2, '0');
+        const detik  = String(sekarang.getSeconds()).padStart(2, '0');
+
+        const waktu = `${tahun}-${bulan}-${hari} ${hour}:${menit}:${detik}`;
+
+        document.getElementById('inputWaktu').value = waktu;
+        document.getElementById('previewWaktu').innerText = `⏳ Berakhir: ${waktu}`;
+
+        // Highlight tombol terpilih
+        document.querySelectorAll('.btn-durasi').forEach(btn => {
+            btn.classList.remove('bg-purple-700', 'text-white', 'border-purple-700');
+            btn.classList.add('bg-purple-50', 'text-purple-700', 'border-purple-200');
+        });
+        el.classList.remove('bg-purple-50', 'text-purple-700', 'border-purple-200');
+        el.classList.add('bg-purple-700', 'text-white', 'border-purple-700');
+    }
+</script>
+
 </head>
 <body class="bg-violet-950 text-slate-100 min-h-screen flex flex-col font-sans">
 
@@ -104,6 +132,19 @@ try {
                         <label class="block text-xs font-semibold text-purple-950 mb-1">🖼️ Foto Komoditas (Import Galeri)</label>
                         <input type="file" name="foto_barang" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-purple-100 file:text-purple-700 hover:file:bg-purple-200 cursor-pointer" required>
                     </div>
+
+                    <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-2">⏳ Durasi Lelang</label>
+                    <div class="flex gap-2 flex-wrap mb-2">
+                        <button type="button" onclick="setDurasi(1, this)"  class="btn-durasi px-3 py-1.5 rounded-xl text-xs font-semibold bg-purple-50 border border-purple-200 text-purple-700 hover:bg-purple-100 transition">1 Jam</button>
+                        <button type="button" onclick="setDurasi(3, this)"  class="btn-durasi px-3 py-1.5 rounded-xl text-xs font-semibold bg-purple-50 border border-purple-200 text-purple-700 hover:bg-purple-100 transition">3 Jam</button>
+                        <button type="button" onclick="setDurasi(6, this)"  class="btn-durasi px-3 py-1.5 rounded-xl text-xs font-semibold bg-purple-50 border border-purple-200 text-purple-700 hover:bg-purple-100 transition">6 Jam</button>
+                        <button type="button" onclick="setDurasi(12, this)" class="btn-durasi px-3 py-1.5 rounded-xl text-xs font-semibold bg-purple-50 border border-purple-200 text-purple-700 hover:bg-purple-100 transition">12 Jam</button>
+                        <button type="button" onclick="setDurasi(24, this)" class="btn-durasi px-3 py-1.5 rounded-xl text-xs font-semibold bg-purple-50 border border-purple-200 text-purple-700 hover:bg-purple-100 transition">24 Jam</button>
+                    </div>
+                    <p id="previewWaktu" class="text-[10px] text-slate-400 mb-1">Belum dipilih</p>
+                    <input type="hidden" name="waktu" id="inputWaktu">
+                </div>
 
                     <button type="submit" class="w-full bg-gradient-to-r from-purple-700 to-violet-700 hover:from-purple-600 hover:to-violet-600 text-white font-semibold text-xs px-4 py-2.5 rounded-xl transition shadow-md mt-2">
                         Publish ke Dashboard User
