@@ -1,9 +1,5 @@
 <?php
-session_start();
-if (!isset($_SESSION['user'])) {
-    header('Location: /LoginPage/login.html');
-    exit;
-}
+require_once '../LoginPage/authAdmin.php';
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +35,7 @@ if (!isset($_SESSION['user'])) {
     <div>
     <h1>Selamat Datang di DashboardAdmin!</h1>
     <p>Ini adalah halaman dashboard setelah login berhasil.</p>
-    <button><a href="/LoginPage/logout.php">Logout</a></button>
+    <button><a href="../LoginPage/logout.php">Logout</a></button>
     <div>
 </body>
 </html>
