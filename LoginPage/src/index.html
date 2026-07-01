@@ -5,47 +5,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pendaftaran</title>
     <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #120029; /* Disamakan: Latar belakang ungu gelap */
+        }
+
+        .register-card {
+            background-color: #ffffff; /* Disamakan: Kotak putih */
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(147, 112, 219, 0.15); /* Disamakan: Bayangan soft */
+            text-align: left;
+            width: 320px;
+        }
+
+        h1 {
+            color: #6a4c93; /* Disamakan: Judul warna ungu medium */
+            margin-top: 0;
+            margin-bottom: 24px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
 
         label {
-            display: inline-block;
-            width: 70px;
+            display: block;
+            margin-bottom: 6px;
+            color: #555555;
+            font-size: 14px;
+            font-weight: 500;
         }
 
-        body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        margin: 0;
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dcd0ec; /* Disamakan: Border ungu muda */
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: all 0.3s ease;
         }
 
-        form {
-        text-align: left;
+        input:focus {
+            outline: none;
+            border-color: #9370db; /* Disamakan: Fokus ungu cerah */
+            box-shadow: 0 0 5px rgba(147, 112, 219, 0.3);
         }
 
         button {
-        margin-left: 74px;
+            width: 100%;
+            padding: 12px;
+            background-color: #8a63bd; /* Disamakan: Tombol ungu */
+            color: rgb(255, 255, 255);
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
 
+        button:hover {
+            background-color: #724da3; /* Disamakan: Hover ungu tegas */
+        }
+
+        p {
+            text-align: center;
+            font-size: 13px;
+            color: #666666;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
+        a {
+            color: #8a63bd;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div>
+    <div class="register-card">
         <h1>Pendaftaran Akun</h1>
         <form action="../get-api.php" method="POST">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required><br><br>
+            <div class="input-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br><br>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
 
             <button type="submit">Daftar</button>
             <p>Sudah punya akun? <a href="login.html">Login di sini</a></p>
         </form>
     </div>
 </body>
-
 </html>
